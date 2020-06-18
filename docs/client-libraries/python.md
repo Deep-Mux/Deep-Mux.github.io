@@ -1,4 +1,4 @@
-# deepmux-python
+# Python client library user guide
 
 **deepmux** is a PaaS solution to effortlessly deploy trained machine learning models on the cloud and generate predictions without setting up any hardware.
 
@@ -65,3 +65,7 @@ output = deepmux_model.run(dummy_input)
 
 Currently, **deepmux** is in closed testing. You can get your own token by contacting [tna0y](https://t.me/tna0y) or 
 [alexsaplin](https://t.me/alexsaplin).
+
+## Colab example
+
+Try our [demo](https://colab.research.google.com/drive/1Hxx5k-o4_WRMptX2hz8Ht0_HBpvziiMs?authuser=2#scrollTo=HQhBKggbgeEK)

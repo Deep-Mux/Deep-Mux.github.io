@@ -1,9 +1,23 @@
 site_name: Deep Mux
+site_description: Deep Mux documentation
+
+repo_name: Deep-Mux
+repo_url: https://github.com/Deep-Mux/deepmux-python
+
+copyright: Copyright &copy; 2020 DeepMux
+
 nav:
-  - Home: 'index.md'
-  - Concepts: 'concepts.md'
+  - Overview: index.md
+  - Details: details.md
+  - FAQ: faq.md
   - 'Client Libraries':
-    - 'Python User Guide': 'client-libraries/python/user-guide.md'
-  - 'Control Plane':
-    - 'Basics': 'control-plane/basics.md'
-theme: readthedocs
+    - 'Python': client-libraries/python.md
+theme:
+  name: material
+  palette:
+    scheme: default
+    primary: orange
+    accent: grey
+  language: en
+  features:
+    - tabs
