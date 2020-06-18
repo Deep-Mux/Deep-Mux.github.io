@@ -1,1 +1,9 @@
-site_name: My Docs
+site_name: Deep Mux
+nav:
+  - Home: 'index.md'
+  - Concepts: 'concepts.md'
+  - 'Client Libraries':
+    - 'Python User Guide': 'client-libraries/python/user-guide.md'
+  - 'Control Plane':
+    - 'Basics': 'control-plane/basics.md'
+theme: readthedocs
