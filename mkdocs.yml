@@ -16,8 +16,8 @@ theme:
   name: material
   palette:
     scheme: default
-    primary: orange
-    accent: grey
+    primary: 'deep orange'
+    accent: 'deep orange'
   language: en
   features:
     - tabs
