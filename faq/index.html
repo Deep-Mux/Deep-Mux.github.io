@@ -220,9 +220,56 @@
       
     
     
+      <label class="md-nav__link md-nav__link--active" for="__toc">
+        FAQ
+        <span class="md-nav__icon md-icon">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 9h14V7H3v2m0 4h14v-2H3v2m0 4h14v-2H3v2m16 0h2v-2h-2v2m0-10v2h2V7h-2m0 6h2v-2h-2v2z"/></svg>
+        </span>
+      </label>
+    
     <a href="./" title="FAQ" class="md-nav__link md-nav__link--active">
       FAQ
     </a>
+    
+      
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12z"/></svg>
+      </span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#what-if-my-model-is-written-in-a-framework-that-is-not-supported-by-deepmux" class="md-nav__link">
+    What if my model is written in a framework that is not supported by DeepMux?
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#what-if-model-has-multiple-inputs-outputs" class="md-nav__link">
+    What if model has multiple inputs / outputs?
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#are-variable-input-output-sizes-supported" class="md-nav__link">
+    Are variable input / output sizes supported?
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
     
   </li>
 
@@ -264,6 +311,18 @@
   </li>
 
         
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../client-libraries/http/" title="HTTP API" class="md-nav__link">
+      HTTP API
+    </a>
+  </li>
+
+        
       </ul>
     </nav>
   </li>
@@ -286,6 +345,37 @@
     
   
   
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12z"/></svg>
+      </span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#what-if-my-model-is-written-in-a-framework-that-is-not-supported-by-deepmux" class="md-nav__link">
+    What if my model is written in a framework that is not supported by DeepMux?
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#what-if-model-has-multiple-inputs-outputs" class="md-nav__link">
+    What if model has multiple inputs / outputs?
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#are-variable-input-output-sizes-supported" class="md-nav__link">
+    Are variable input / output sizes supported?
+  </a>
+  
+</li>
+      
+    </ul>
+  
 </nav>
                   </div>
                 </div>
@@ -305,6 +395,12 @@
                 
                 
                 <h1 id="faq">FAQ</h1>
+<h2 id="what-if-my-model-is-written-in-a-framework-that-is-not-supported-by-deepmux">What if my model is written in a framework that is not supported by DeepMux?</h2>
+<p>We support models in ONNX format, which is quite universal. You can convert your model to ONNX and uplad it to deepmux. If it is not possible, feel free to contact us at <a href="mailto:dev@deepmux.com">dev@deepmux.com</a> and we will figure out a solution for you.</p>
+<h2 id="what-if-model-has-multiple-inputs-outputs">What if model has multiple inputs / outputs?</h2>
+<p>To create a model with multiple inputs / outputs, you need to pass a list of shapes into input_shape and output_shape parameters. For example, <code>[[2, 2], [1, 3]]</code> would stand for two inputs of sizes 2x2 and 1x3 respectively.</p>
+<h2 id="are-variable-input-output-sizes-supported">Are variable input / output sizes supported?</h2>
+<p>Short answer would be: not yet. Nevertheless you can create a model and predefine it's expected input shape to resize your input before passing it to the model. Variable output shapes are not possible at the moment.</p>
                 
               
               
