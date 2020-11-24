@@ -8,10 +8,13 @@ copyright: Copyright &copy; 2020 DeepMux
 
 nav:
   - Overview: index.md
-  - Details: details.md
-  - FAQ: faq.md
-  - 'Client Libraries':
-    - 'Python': client-libraries/python.md
+  - Installing deepmux-cli: cli.md
+  - Functions Quickstart: functions-quickstart.md
+  - Learn More: details.md
+  #- FAQ: faq.md
+  #- 'Client Libraries':
+  #  - 'Python': client-libraries/python.md
+  #  - 'HTTP API': client-libraries/http.md
 theme:
   name: material
   palette:
@@ -19,5 +22,5 @@ theme:
     primary: 'deep orange'
     accent: 'deep orange'
   language: en
-  features:
-    - tabs
+  #features:
+  # - tabs

@@ -1,0 +1,339 @@
+{
+    "swagger": "2.0",
+    "info": {
+        "title": "DeepMux HTTP API",
+        "version": "v1",
+        "description": "DeepMux API allows to perform create, read, delete and run operations on ML models."
+    },
+    "host": "api.deepmux.com",
+    "basePath": "/v1",
+    "schemes": ["https"],
+    "securityDefinitions": {
+        "APIKeyHeader": {
+            "description": "DeepMux API token",
+            "type":"apiKey",
+            "in": "header",
+            "name": "X-Token"
+        }
+    },
+    "paths": {
+        "/model/{model_name}": {
+            "parameters": [     
+                {
+                    "in": "path",
+                    "name": "model_name",
+                    "type": "string",
+                    "description": "Model name",
+                    "required": true
+                }
+            ],
+            "put": {
+                "description": "Create a new model with given attributes. Must be called before POST.",
+                "parameters": [
+                    {
+                        "description": "Model attributes",
+                        "in": "body",
+                        "name": "",
+                        "schema": {
+                            "type": "object",
+                            "required": [
+                                "input",
+                                "output",
+                                "data_type"
+                            ],
+                            "properties": {
+                                "input": {
+                                    "description": "2D integer array of model input shapes. Each subarray stands for each model input shape.",
+                                    "type":"array",
+                                    "items": {
+                                        "type": "array",
+                                        "items": {
+                                            "type":"integer"
+                                        }
+                                    }
+                                },
+                                "output": {
+                                    "description": "2D integer array of model output shapes. Each subarray stands for each model output shape.",
+                                    "type":"array",
+                                    "items": {
+                                        "type": "array",
+                                        "items": {
+                                            "type":"integer"
+                                        }
+                                    }
+                                },
+                                "data_type": {
+                                    "description": "Value data type of input and output tensors.",
+                                    "type":"string",
+                                    "enum": ["UINT8", "INT8", "UINT16", "INT16", "FLOAT16", "UINT32", "INT32", "FLOAT32", "UINT64", "INT64", "FLOAT64", "COMPLEX64", "COMPLEX128"]
+                                }
+                            }
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Model was initialized",
+                        "schema": {
+                            "$ref": "#/definitions/Model"
+                        }
+                    },
+                    "401": {
+                        "$ref": "#/responses/Unauthenticated"
+                    },
+                    "403": {
+                        "$ref": "#/responses/PermissionDenied"
+                    },
+                    "409": {
+                        "$ref": "#/responses/AlreadyExists"
+                    }
+                }
+            },
+            "post": {
+                "description": "Upload the model itself for a model that was already initialized. Can be called only once. After the upload model will be in PROCESSING state for some time after which state will either become READY or ERROR. Must be called after PUT.",
+                "consumes": [
+                    "application/octet-stream"
+                ],
+                "parameters": [
+                    {
+                        "in": "body",
+                        "name": "",
+                        "description": "Serialized model in ONNX format. Typically this refers to the contens of the .onnx file after the model was exported."
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Metadata for uploaded model",
+                        "schema": {
+                            "$ref": "#/definitions/Model"
+                        }
+                    },
+                    "401": {
+                        "$ref": "#/responses/Unauthenticated"
+                    },
+                    "403": {
+                        "$ref": "#/responses/PermissionDenied"
+                    },
+                    "404": {
+                        "$ref": "#/responses/NotFound"
+                    },
+                    "409": {
+                        "$ref": "#/responses/AlreadyUploaded"
+                    }
+                }
+            },
+            "get": {
+                "description": "Get existing model metadata",
+                "responses": {
+                    "200": {
+                        "description": "ok",
+                        "schema": {
+                            "$ref": "#/definitions/Model"
+                        }
+                    },
+                    "401": {
+                        "$ref": "#/responses/Unauthenticated"
+                    },
+                    "403": {
+                        "$ref": "#/responses/PermissionDenied"
+                    },
+                    "404": {
+                        "$ref": "#/responses/NotFound"
+                    }
+                }
+            },
+            "delete": {
+                "description": "Delete an existing model",
+                "responses": {
+                    "200": {
+                        "description": "ok",
+                        "schema": {
+                            "$ref": "#/definitions/Model"
+                        }
+                    },
+                    "401": {
+                        "$ref": "#/responses/Unauthenticated"
+                    },
+                    "403": {
+                        "$ref": "#/responses/PermissionDenied"
+                    },
+                    "404": {
+                        "$ref": "#/responses/NotFound"
+                    }
+                }
+            }
+        },
+        "/model/{model_name}/run": {
+            "post": {
+                "description": "Run an existing model",
+                "consumes": [
+                    "multipart/form-data"
+                ],
+                "produces": [
+                    "application/octet-stream"   
+                ],
+                "parameters": [     
+                    {
+                        "in": "path",
+                        "name": "model_name",
+                        "type": "string",
+                        "description": "Model name",
+                        "required": true
+                    },
+                    {
+                        "in": "formData",
+                        "name": "shape",
+                        "type": "string",
+                        "description": "JSON serialized list of input tensor shapes. Must match the input shape of the model used during model creation.",
+                        "required": true
+                    },
+                    {
+                        "in": "formData",
+                        "name": "data_type",
+                        "description": "Value data type of input and output tensors. Must match the deata type of the model used during model creation.",
+                        "type":"string",
+                        "enum": ["UINT8", "INT8", "UINT16", "INT16", "FLOAT16", "UINT32", "INT32", "FLOAT32", "UINT64", "INT64", "FLOAT64", "COMPLEX64", "COMPLEX128"],
+                        "required": true
+                    },
+                    {
+                        "in": "formData",
+                        "name": "tensor",
+                        "type":"file",
+                        "description": "Model input tensors. Serialized in binary, just as C array, equivalent to python's numpy.ndarray.tobytes() function output. If there are multiple inputs, corresponding tensors should be concatinated. For example, if model's input shape is [[2, 2]] (single input of shape 2x2) and data type is FLOAT32 (4 bytes) then tensor should be  2 * 2 * 4 = 16 bytes in length. Individual values should be serialized using Little-Endian byte order.",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Response body entirely consists of output tensors, serialized in the same way as input tensors."
+                    },
+                    "102": {
+                        "description": "Model is still processing"
+                    },
+                    "400": {
+                        "$ref": "#/responses/InvalidArgument"
+                    },
+                    "401": {
+                        "$ref": "#/responses/Unauthenticated"
+                    },
+                    "403": {
+                        "$ref": "#/responses/PermissionDenied"
+                    },
+                    "404": {
+                        "$ref": "#/responses/NotFound"
+                    },
+                    "412": {
+                        "$ref": "#/responses/FailedPrecondition"
+                    }
+                }
+            }
+        }
+    },
+    "definitions": {
+        "Model": {
+            "description": "Metadata related to a ML model",
+            "properties": {
+                "name": {
+                    "description": "Model name",
+                    "type":"string"
+                },
+                "data_type": {
+                    "description": "Value data type of input and output tensors.",
+                    "type":"string",
+                    "enum": ["UINT8", "INT8", "UINT16", "INT16", "FLOAT16", "UINT32", "INT32", "FLOAT32", "UINT64", "INT64", "FLOAT64", "COMPLEX64", "COMPLEX128"]
+                },
+                "state": {
+                    "description": "Model state. Only models in READY state can be run.",
+                    "type":"string",
+                    "enum": ["CREATED", "PROCESSING", "READY", "ERROR", "DELETED"]
+                },
+                "input": {
+                    "description": "2D integer array of model input shapes. Each subarray stands for each model input shape.",
+                    "type":"array",
+                    "items": {
+                        "type": "array",
+                        "items": {
+                            "type":"integer"
+                        }
+                    }
+                },
+                "output": {
+                    "description": "2D integer array of model output shapes. Each subarray stands for each model output shape.",
+                    "type":"array",
+                    "items": {
+                        "type": "array",
+                        "items": {
+                            "type":"integer"
+                        }
+                    }
+                },
+                "error": {
+                    "description": "Model processing error description. Only present if model is in ERROR state.",
+                    "type":"string"
+                }
+
+            }
+        },
+        "Error": {
+            "properties": {
+                "message": {
+                    "type":"string",
+                    "description": "Error description with details on what went wrong."
+                }
+            },
+            "required": [
+                "message"
+            ]
+        }
+    },
+    "responses": {
+        "NotFound": {
+            "description": "Model with given name was not found",
+            "schema": {
+                "$ref": "#/definitions/Error" 
+            }
+        },
+        "AlreadyExists": {
+            "description": "Model with given name already exists",
+            "schema": {
+                "$ref": "#/definitions/Error" 
+            }
+        },
+        "AlreadyUploaded": {
+            "description": "Model was already uploaded",
+            "schema": {
+                "$ref": "#/definitions/Error" 
+            }
+        },
+        "InvalidArgument": {
+            "description": "Something in the request is malformed, check message for details",
+            "schema": {
+                "$ref": "#/definitions/Error" 
+            }
+        },
+        "Unavailable": {
+            "description": "Model is still processing",
+            "schema": {
+                "$ref": "#/definitions/Error" 
+            }
+        },
+        "FailedPrecondition": {
+            "description": "Model is not runnable: processing resulted in an error or the model was not uploaded yet",
+            "schema": {
+                "$ref": "#/definitions/Error" 
+            }
+        },
+        "PermissionDenied": {
+            "description": "Provided authentication token is invalid",
+            "schema": {
+                "$ref": "#/definitions/Error" 
+            }
+        },
+        "Unauthenticated": {
+            "description": "X-Token header was not provided",
+            "schema": {
+                "$ref": "#/definitions/Error" 
+            }
+        }
+    }
+}
