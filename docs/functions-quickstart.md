@@ -31,22 +31,30 @@ We are going to use `python3.7` environment
 Then initialize the project with the following command:
 
 ```bash
-deepmux init --name myproject --env python3.7
+deepmux init
 ```
 
-This will create an empty function named `myproject` identified by `deepmux.yaml` file in your current directory.
+This will create `deepmux.yaml` and `.deepmuxignore` files in your current directory.
 
 Contents of `deepmux.yaml`:
 
 ```yaml
-name: myproject
-env: python3.7
+name: <function name>
+env: <function env>
 python:
   call: <required, module:function to call>
   requirements: <optional, path to requirements.txt>
 ```
 
-We are going to fill in `call` and `requirements` sections later.
+Contents of `.deepmuxignore`:
+
+```
+.deepmuxignore
+deepmux.yaml
+```
+It is a standard ignore file and should contain ignore patterns.
+
+We are going to fill in `name`, `env`, `call` and `requirements` sections later.
 
 
 ## Implementing function
@@ -100,7 +108,7 @@ numpy==1.19.4
 
 And add path to the file in your `deepmux.yaml`:
 ```yaml
-name: yourproject
+name: myproject
 env: python3.7
 python:
   call: main:reverse_function
@@ -126,7 +134,7 @@ command to get your functions and their statuses or simply check your functions 
 Once your function has finished processing and is in `READY` state you can call it with an HTTP request.
 
 Here's an example using curl:
-```
+```bash
 curl -X POST \
      -H "X-Token: <YOUR API TOKEN>" \
      http://api.deepmux.com/v1/function/myproject/run \
@@ -135,6 +143,12 @@ curl -X POST \
 You should see the following on the screen:
 ```
 !olleH
+```
+
+You also could run your function via cli:
+```bash
+deepmux run --name myproject --data 'hello!'
+!olleh
 ```
 
 Done! Now you are ready to implement more complex functions and enjoy deploying them on the DeepMux platform.
