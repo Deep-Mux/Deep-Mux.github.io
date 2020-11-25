@@ -34,7 +34,7 @@ Then initialize the project with the following command:
 deepmux init --name myproject --env python3.7
 ```
 
-This will create an empty function named `myproject` and a `deepmux.yaml` file in your current directory.
+This will create an empty function named `myproject` identified by `deepmux.yaml` file in your current directory.
 
 Contents of `deepmux.yaml`:
 
@@ -69,7 +69,7 @@ Let's save this function to a file `main.py` and add it as an entrypoint.
 You need to open `deepmux.yaml` and add `main:reverse_function` to the `call:` section.
 
 At this point `deepmux.yaml` would look like:
-```yaml=
+```yaml
 name: myproject
 env: python3.7
 python:
@@ -93,9 +93,11 @@ You can add requirements for your function. Let's say we need `numpy` package in
 
 
 Write`requirements.txt` file
+
 ```txt
 numpy==1.19.4
 ```
+
 And add path to the file in your `deepmux.yaml`:
 ```yaml
 name: yourproject
