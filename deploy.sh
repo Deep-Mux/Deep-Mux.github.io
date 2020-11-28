@@ -1,6 +1,8 @@
 #!/bin/bash
 set -xue -o pipefail
 
+mkdocs build
+
 msg="Update at $(TZ='UTC' date)"
 
 git add .
