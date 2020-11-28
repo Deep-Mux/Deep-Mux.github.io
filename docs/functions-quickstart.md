@@ -46,6 +46,9 @@ python:
   requirements: <optional, path to requirements.txt>
 ```
 
+Fill the `name` field with `myproject` and `env` with `python3.7`. You can use `deepmux env` command to list all available environments.
+
+
 Contents of `.deepmuxignore`:
 
 ```
