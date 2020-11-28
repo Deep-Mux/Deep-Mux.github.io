@@ -137,7 +137,7 @@ Here's an example using curl:
 ```bash
 curl -X POST \
      -H "X-Token: <YOUR API TOKEN>" \
-     http://api.deepmux.com/v1/function/myproject/run \
+     https://api.deepmux.com/v1/function/myproject/run \
      --data "Hello!"
 ```
 You should see the following on the screen:
