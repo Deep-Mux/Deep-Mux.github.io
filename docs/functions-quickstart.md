@@ -39,8 +39,8 @@ This will create `deepmux.yaml` and `.deepmuxignore` files in your current direc
 Contents of `deepmux.yaml`:
 
 ```yaml
-name: <function name>
-env: <function env>
+name: <required, function name>
+env: <required, function env>
 python:
   call: <required, module:function to call>
   requirements: <optional, path to requirements.txt>
@@ -50,8 +50,8 @@ Contents of `.deepmuxignore`:
 
 ```
 .deepmuxignore
-deepmux.yaml
 ```
+
 It is a standard ignore file and should contain ignore patterns.
 
 We are going to fill in `name`, `env`, `call` and `requirements` sections later.
