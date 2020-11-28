@@ -425,15 +425,14 @@ cd myproject
 </code></pre>
 <p>This will create <code>deepmux.yaml</code> and <code>.deepmuxignore</code> files in your current directory.</p>
 <p>Contents of <code>deepmux.yaml</code>:</p>
-<pre><code class="language-yaml">name: &lt;function name&gt;
-env: &lt;function env&gt;
+<pre><code class="language-yaml">name: &lt;required, function name&gt;
+env: &lt;required, function env&gt;
 python:
   call: &lt;required, module:function to call&gt;
   requirements: &lt;optional, path to requirements.txt&gt;
 </code></pre>
 <p>Contents of <code>.deepmuxignore</code>:</p>
 <pre><code>.deepmuxignore
-deepmux.yaml
 </code></pre>
 <p>It is a standard ignore file and should contain ignore patterns.</p>
 <p>We are going to fill in <code>name</code>, <code>env</code>, <code>call</code> and <code>requirements</code> sections later.</p>
